@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Results - AI Resume Screener{% endblock %}
+
+{% block content %}
+<div class="results">
+    <h1>Screening Results</h1>
+    <p class="subtitle">Analysis for <strong>{{ filename }}</strong></p>
+
+    <div class="score-card">
+        <div class="score-circle score-{{ 'high' if result.score >= 75 else ('mid' if result.score >= 50 else 'low') }}">
+            <span class="score-number">{{ result.score }}</span>
+            <span class="score-label">/ 100</span>
+        </div>
+        <div class="recommendation {{ result.recommendation | lower | replace(' ', '-') }}">
+            {{ result.recommendation }}
+        </div>
+    </div>
+
+    <div class="result-section">
+        <h2>Summary</h2>
+        <p>{{ result.summary }}</p>
+    </div>
+
+    <div class="result-columns">
+        <div class="result-section strengths">
+            <h2>Strengths</h2>
+            <ul>
+                {% for strength in result.strengths %}
+                    <li>{{ strength }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="result-section weaknesses">
+            <h2>Areas to Improve</h2>
+            <ul>
+                {% for weakness in result.weaknesses %}
+                    <li>{{ weakness }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">Screen Another Resume</a>
+</div>
+{% endblock %}
